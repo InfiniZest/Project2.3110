@@ -16,8 +16,8 @@
 #define left 97
 #define right 100
 
-struct snake
-{
+class snake {
+private:
   char symbol;
   int size;
   char direction;
@@ -27,43 +27,49 @@ struct snake
   int head_X;
   int head_Y;
 
+public:
+    void snake_init(snake *snake1); //Must use this as a constructor
 };
 
-
-struct snake_pos
-{
+class snake_pos {
+private:
   int Y[vertical*horizontal];
   int X[vertical*horizontal];
 
+public:
+    void pos_init(snake_pos *pos1); //Must use this as a constructor
 };
 
-
-
-struct food
-{
+class food {
+private:
   int X;
   int Y;
   char symbol;
-
+public:
+    void food_init(food *food1);  //Must use this as a constructor
+    void food_print(food *food1);
 };
 
+class borders {
+public:
+    void set_borders();
+};
 
+class gameScore {
+public:
+    void print_score(int*);
+    int game_over(snake *snake1, snake_pos *pos1);
+};
 
-void snake_init(snake *snake1);
-void pos_init(snake_pos *pos1);
-void food_init(food *food1);
-void gotoxy(int,int);
-void snake_place(snake *snake1, snake_pos *pos1);
-void snake_move(snake *snake1, snake_pos *pos1, food *food1, int*);
-void move_tail(snake *snake1, snake_pos *pos1);
-void move_head(snake *snake1, snake_pos *pos1);
-void food_print(food *food1);
-int game_over(snake *snake1, snake_pos *pos1);
-void set_borders();
-void print_score(int*);
+class snakeMove {
+public:
+    void snake_place(snake *snake1, snake_pos *pos1);
+    void snake_move(snake *snake1, snake_pos *pos1, food *food1, int*);
+    void move_tail(snake *snake1, snake_pos *pos1);
+    void move_head(snake *snake1, snake_pos *pos1);
+};
+
 // int kbhit(void);
-
-
 
 int main()
 {
@@ -71,8 +77,8 @@ int main()
   int score=0;
 
   Console cons;
-  
-  
+
+
   /* struct init */
 
   snake snake1;
@@ -135,10 +141,7 @@ int main()
 
 }
 
-
-
-
-void snake_init(snake *snake1)
+void snake_init(snake *snake1)  //Must create this as constructor definition
 {
   snake1->symbol='*';
   snake1->size=10;
@@ -150,9 +153,7 @@ void snake_init(snake *snake1)
   snake1->head_Y=5;
 }
 
-
-void snake_place(snake *snake1, snake_pos *pos1)
-{
+void snakeMove::snake_place(snake *snake1, snake_pos *pos1) {
   int i;
   for (i=0; i<snake1->size; ++i)
     {
@@ -165,8 +166,7 @@ void snake_place(snake *snake1, snake_pos *pos1)
 
 }
 
-void set_borders()
-{
+void borders::set_borders() {
   int i;
   for (i=0; i<vertical; ++i)
     {
@@ -186,9 +186,7 @@ void set_borders()
 }
 
 
-
-void snake_move(snake *snake1, snake_pos *pos1, food *food1, int *score)
-{
+void snakeMove::snake_move(snake *snake1, snake_pos *pos1, food *food1, int *score) {
   move_head(snake1,pos1);
 
   if (!((snake1->head_X==food1->X) && (snake1->head_Y==food1->Y)))
@@ -207,8 +205,7 @@ void snake_move(snake *snake1, snake_pos *pos1, food *food1, int *score)
 
 
 
-void move_tail(snake *snake1, snake_pos *pos1)
-{
+void snakeMove::move_tail(snake *snake1, snake_pos *pos1) {
   int i;
 
   // remove last cell of tail
@@ -224,10 +221,7 @@ void move_tail(snake *snake1, snake_pos *pos1)
     }
 }
 
-
-
-void move_head(snake *snake1, snake_pos *pos1)
-{
+void snakeMove::move_head(snake *snake1, snake_pos *pos1) {
   switch (snake1->direction)
     {
     case right:
@@ -284,36 +278,24 @@ void move_head(snake *snake1, snake_pos *pos1)
 
 
 
-void food_init(food *food1)
-{
+void food::food_init(food *food1) {   //Create constructor definition
   food1->X=(rand()%(horizontal-5))+1;
   food1->Y=(rand()%(vertical-5))+1;
   food1->symbol='F';
 }
 
-
-void food_print(food *food1)
-{
+void food::food_print(food *food1) {
   gotoxy(food1->X,food1->Y);
   printf("%c",food1->symbol);
-
 }
 
-
-void gotoxy(int x,int y)
-{
-  printf("%c[%d;%df",0x1B,y,x);
-}
-
-
-
-void pos_init(snake_pos *pos1)
+void pos_init(snake_pos *pos1) //Create constructor definition
 {
   memset(pos1, 0, sizeof(*pos1));
 }
 
 
-int game_over(snake *snake1, snake_pos *pos1)
+int gameScore::game_over(snake *snake1, snake_pos *pos1)
 {
   int i;
 
@@ -324,7 +306,6 @@ int game_over(snake *snake1, snake_pos *pos1)
           return 1;
         }
     }
-
 
   if ((snake1->head_X==horizontal) || (snake1->head_X==1) || (snake1->head_Y==vertical) || (snake1->head_Y==1))
     {
