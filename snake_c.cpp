@@ -17,7 +17,7 @@
 #define right 100
 
 class snake {
-private:
+public:
   char symbol;
   int size;
   char direction;
@@ -27,24 +27,24 @@ private:
   int head_X;
   int head_Y;
 
-public:
   // void snake_init(snake *snake1); Must use this as a constructor
-  snake(snake *sanke1);
-  void snake_place(snake *snake1, snake_pos *pos1);
-  void snake_move(snake *snake1, snake_pos *pos1, food *food1, int*);
-  void move_tail(snake *snake1, snake_pos *pos1);
-  void move_head(snake *snake1, snake_pos *pos1);
-};
+    snake(snake *sanke1);
+    snake();
+  };
 
 class snake_pos {
 private:
-  int Y[vertical*horizontal];
-  int X[vertical*horizontal];
+    int Y[vertical*horizontal];
+    int X[vertical*horizontal];
 
 public:
   //void pos_init(snake_pos *pos1); Must use this as a constructor
-  snake_pos(snake_pos *pos1);
-  int game_over(snake *snake1, snake_pos *pos1);
+    snake_pos(snake_pos *pos1);
+    snake_pos();
+    int game_over(snake *snake1, snake_pos *pos1);
+    void snake_place(snake *snake1, snake_pos *pos1);
+    void move_tail(snake *snake1, snake_pos *pos1);
+    void move_head(snake *snake1, snake_pos *pos1);
 };
 
 class food {
@@ -54,8 +54,10 @@ private:
   char symbol;
 public:
   //void food_init(food *food1);  //Must use this as a constructor
-  food(food *food1);
-  void food_print(food *food1);
+    food(food *food1);
+    food();
+    void food_print(food *food1);
+    void snake_move(snake *snake1, snake_pos *pos1, food *food1, int*);
 };
 
 class borders {
@@ -83,9 +85,9 @@ int main()
   snake snake1;
   snake_pos pos1;
   food food1;
-  snake_init(&snake1);
-  pos_init(&pos1);
-  food_init(&food1);
+  //snake_init(&snake1);
+  //pos_init(&pos1);
+  //food_init(&food1);
 
 
   /* set initial field */
@@ -93,9 +95,11 @@ int main()
   system("clear");
   system("stty -echo");
   curs_set(0);                    // doesn't work for some reason
-  snake_place(&snake1,&pos1);
+  //snake_place(&snake1,&pos1);
+  pos1.snake_place(&snake1, &pos1);
   cons.draw_borders();
-  food_print(&food1);
+  //food_print(&food1);
+  food1.food_print(&food1);
 
 
   /* use system call to make terminal send all keystrokes directly to stdin */
@@ -105,16 +109,18 @@ int main()
 
   /* while snake not got collided into itself */
 
-  while(!(game_over(&snake1,&pos1)))
-    {
+  //while(!(game_over(&snake1,&pos1)))
+  while(!(pos1.game_over(&snake1,&pos1))) {
 
       /* while key not pressed */
 
       while ( !(cons.kbhit()) )
         {
           usleep(snake_speed);
-          snake_move(&snake1,&pos1,&food1,&score);
-          if (game_over(&snake1,&pos1))
+          //snake_move(&snake1,&pos1,&food1,&score);
+          food1.snake_move(&snake1,&pos1,&food1,&score);
+          //if (game_over(&snake1,&pos1))
+          if (pos1.game_over(&snake1,&pos1))
             {
               break;
             }
@@ -124,10 +130,8 @@ int main()
 
       snake1.prev_direction=snake1.direction;
       snake1.direction=getchar();
+  }
 
-
-
-    }
   /* use system call to set terminal behaviour to more normal behaviour */
   system ("/bin/stty cooked");
   system("stty echo");
@@ -152,11 +156,10 @@ snake::snake(snake *snake1) {
   snake1->head_Y=5;
 }
 
-void snake:snake_place(snake *snake1, snake_pos *pos1) {
-  int i;
-  for (i=0; i<snake1->size; ++i)
+void snake_pos::snake_place(snake *snake1, snake_pos *pos1) {
+    int i;
+    for (i=0; i<snake1->size; ++i)
     {
-      gotoxy(snake1->tail_X,snake1->tail_Y);
       printf("%c",snake1->symbol);
       pos1->X[i]=snake1->tail_X;
       pos1->Y[i]=snake1->tail_Y;
@@ -169,27 +172,24 @@ void borders::set_borders() {
   int i;
   for (i=0; i<vertical; ++i)
     {
-      gotoxy(0,i);
       printf("X");
-      gotoxy(horizontal,i);
       printf("X");
     }
 
   for (i=0; i<horizontal; ++i)
     {
-      gotoxy(i,0);
       printf("X");
-      gotoxy(i,vertical);
       printf("X");
     }
 }
 
-void snake::snake_move(snake *snake1, snake_pos *pos1, food *food1, int *score) {
+void food::snake_move(snake *snake1, snake_pos *pos1, food *food1, int *score) {
   move_head(snake1,pos1);
 
   if (!((snake1->head_X==food1->X) && (snake1->head_Y==food1->Y)))
     {
-      move_tail(snake1,pos1);
+        //move_tail(snake1,pos1);
+        pos1->move_tail(snake1,pos1);
     }
   else
     {
@@ -201,13 +201,10 @@ void snake::snake_move(snake *snake1, snake_pos *pos1, food *food1, int *score) 
     }
 }
 
-
-
-void snake::move_tail(snake *snake1, snake_pos *pos1) {
+void snake_pos::move_tail(snake *snake1, snake_pos *pos1) {
   int i;
 
   // remove last cell of tail
-  gotoxy(pos1->X[0],pos1->Y[0]);
   printf(" ");
 
 
@@ -219,7 +216,7 @@ void snake::move_tail(snake *snake1, snake_pos *pos1) {
     }
 }
 
-void snake::move_head(snake *snake1, snake_pos *pos1) {
+void snake_pos::move_head(snake *snake1, snake_pos *pos1) {
   switch (snake1->direction)
     {
     case right:
@@ -282,7 +279,6 @@ food::food(food *food1) {
 }
 
 void food::food_print(food *food1) {
-  gotoxy(food1->X,food1->Y);
   printf("%c",food1->symbol);
 }
 
@@ -293,7 +289,7 @@ snake_pos::snake_pos(snake_pos *pos1)
 }
 
 
-int gameScore::game_over(snake *snake1, snake_pos *pos1)
+int snake_pos::game_over(snake *snake1, snake_pos *pos1)
 {
   int i;
 
