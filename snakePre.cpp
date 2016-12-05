@@ -36,7 +36,6 @@ public:
 public:
     snake_pos();
     void snake_place(snake *, int *, int *);
-    int game_over(snake *, int *, int *);
 };
 
 class food {
@@ -78,7 +77,7 @@ int main() {
     food1.food_print(&food1.X, &food1.Y, &food1.symbol);
 
     system ("/bin/stty raw");
-    while(!(pos1.game_over(&snake1, pos1.X, pos1.Y))) {
+    while(!(misc1.game_over(&snake1, &pos1))) {
         while (!(cons.kbhit())) {
             usleep(snake_speed);
             food1.snake_move(&snake1, &pos1, &food1.X, &food1.Y, &food1.symbol, &score);
@@ -130,19 +129,19 @@ void snake_pos::snake_place(snake *x1, int *X, int *Y) {
     }
 }
 
-int misc::game_over(snake *x1, int *X, int *Y) {
+int misc::game_over(snake *x3, snake_pos *y1) {
 
     int i;
 
-    for(i = 0; i<x1->size-1; ++i) {
+    for(i = 0; i<x3->size-1; ++i) {
 
-        if ((X[i]==x1->head_X) && (Y[i]==x1->head_Y))
+        if ((y1->X[i]==x3->head_X) && (y1->Y[i]==x3->head_Y))
         {
             return 1;
         }
     }
 
-    if ((x1->head_X==200) || (x1->head_X==1) || (x1->head_Y==40) || (x1->head_Y==1))
+    if ((x3->head_X==200) || (x3->head_X==1) || (x3->head_Y==40) || (x3->head_Y==1))
         {
             return 1;
         }
@@ -172,8 +171,8 @@ void food::snake_move(snake *x2, snake_pos *y, int *X, int *Y, char *symbol, int
     else {
         x2->size++;
         *score = *score+1;
-        y->X = rand()%(195);
-        y->Y = rand()%(35);
+        *X = rand()%(195);
+        *Y = rand()%(35);
         food_print(X, Y, symbol);
     }
 }
