@@ -1,3 +1,9 @@
+##########################################
+#          Project2:Makefile             #
+#             CISC3110-TTH               #
+#            Name:Imran Khan             #
+##########################################
+
 objects = snakePre.o console.o
 
 snakeProject : $(objects)

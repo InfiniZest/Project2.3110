@@ -1,3 +1,9 @@
+/******************************************
+ *          Project2:console.h            *
+ *             CISC3110-TTH               *
+ *            Name:Imran Khan             *
+ ******************************************/
+
 #ifndef CONSOLE_H
 #define CONSOLE_H
 

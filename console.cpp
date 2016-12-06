@@ -4,16 +4,27 @@
 #include <termios.h>
 #include <fcntl.h>
 #include <ncurses.h>
+/******************************************
+ *         Project2:console.cpp           *
+ *             CISC3110-TTH               *
+ *            Name:Imran Khan             *
+ ******************************************/
+
 #include <locale.h>
 
 Console::Console() {
   initscr();
   setlocale(LC_CTYPE, "");
-  getmaxyx(stdscr, vertical, horizontal);
+  getmaxyx(stdscr, vertical, horizontal);  //Color doesn't seem to work
+  start_color();
+  init_pair(7,COLOR_WHITE, COLOR_BLACK);
+  attron(COLOR_PAIR(7));
 }
 
 Console::~Console() {
-  endwin();
+    attroff(COLOR_PAIR(7));
+    refresh();
+    endwin();
 }
 
 int Console::get_horizontal() {
@@ -25,7 +36,6 @@ int Console::get_vertical() {
   return vertical;
 }
 void Console::draw_borders() {
-
   for (int i=0; i<vertical; ++i)
     {
       gotoxy(0,i);
