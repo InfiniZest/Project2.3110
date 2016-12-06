@@ -8,8 +8,6 @@
 #include <fcntl.h>
 #include <ncurses.h>
 
-using namespace std;
-
 class snake {
 public:
     char symbol;
@@ -21,19 +19,23 @@ public:
     int head_X;
     int head_Y;
     Console direct;
-public:
+
     snake();
-    ~snake() {
-        cout<<"the destructor is running" << size << endl;
-    }
 };
 
 class snake_pos {
 public:
-    int Y[40*200];
-    int X[40*200];
+   static const int vertical = 40;
+   static const int horizontal = 200;
+   static const int down = 115;
+   static const int up = 119;
+   static const int left = 97;
+   static const int right = 100;
+
+    int Y[vertical*horizontal];
+    int X[vertical*horizontal];
     snake x;
-public:
+
     snake_pos();
     void snake_place(snake *, int *, int *);
 };
@@ -49,6 +51,8 @@ public:
     food();
     void food_print(int *, int *, char *);
     void snake_move(snake *, snake_pos *, int *, int *, char *, int *);
+    void move_head(snake *, snake_pos *);
+    void move_tail(snake *, snake_pos *);
 };
 
 class misc {
@@ -56,6 +60,7 @@ public:
     snake x3;
     snake_pos y1;
 public:
+    void set_borders();
     int game_over(snake *, snake_pos *);
 };
 
@@ -99,21 +104,20 @@ int main() {
     }
 
 snake::snake() {
+    snake_pos *a;
     symbol = '*';
     size = 10;
-    direction = direct.get_horizontal();
-    prev_direction = direct.get_vertical();
+    direction = a->right;
+    prev_direction = a->down;
     tail_X = 5;
     tail_Y = 5;
     head_X = tail_X+size-1;
     head_Y = 5;
-    cout << "This constructor is running" << tail_X << tail_Y << head_X << symbol << size << direction << prev_direction <<  endl;
 }
 
 snake_pos::snake_pos() {
     memset(X, 0, sizeof(*X));
     memset(Y, 0, sizeof(*Y));
-    cout << "Snake_pos constructor running" <<endl;
 }
 
 void snake_pos::snake_place(snake *x1, int *X, int *Y) {
@@ -129,6 +133,27 @@ void snake_pos::snake_place(snake *x1, int *X, int *Y) {
     }
 }
 
+void misc:: set_borders() {
+    int i;
+    Console cons5;
+snake_pos y0;
+    for (i=0; i<y0.vertical; ++i)
+    {
+        cons5.gotoxy(0,i);
+        printf("X");
+        cons5.gotoxy(y0.horizontal,i);
+        printf("X");
+    }
+
+    for (i=0; i<y0.horizontal; ++i)
+    {
+        cons5.gotoxy(i,0);
+        printf("X");
+        cons5.gotoxy(i,40);
+        printf("X");
+    }
+}
+
 int misc::game_over(snake *x3, snake_pos *y1) {
 
     int i;
@@ -141,7 +166,7 @@ int misc::game_over(snake *x3, snake_pos *y1) {
         }
     }
 
-    if ((x3->head_X==200) || (x3->head_X==1) || (x3->head_Y==40) || (x3->head_Y==1))
+    if ((x3->head_X==y1->horizontal) || (x3->head_X==1) || (x3->head_Y==y1->vertical) || (x3->head_Y==1))
         {
             return 1;
         }
@@ -150,10 +175,10 @@ int misc::game_over(snake *x3, snake_pos *y1) {
 }
 
 food::food() {
-    X = (rand()%(200-5))+1;
-    Y = (rand()%(40-5))+1;
+snake_pos *y;
+    X = (rand()%(y->horizontal-5))+1;
+    Y = (rand()%(y->vertical-5))+1;
     symbol = 'F';
-    cout << X << Y << symbol << "The food constructor is running" <<endl;
 }
 
 void food::food_print(int *X, int*Y, char *symbol) {
@@ -163,21 +188,22 @@ void food::food_print(int *X, int*Y, char *symbol) {
 }
 
 void food::snake_move(snake *x2, snake_pos *y, int *X, int *Y, char *symbol, int *score) {
-    void move_head(snake, snake_pos);
+
+    move_head(x2,y);
 
     if (!((x2->head_X==*X) && (x2->head_Y==*Y))) {
-        void move_tail(snake, snake_pos);
+        move_tail(x2, y);
     }
     else {
         x2->size++;
         *score = *score+1;
-        *X = rand()%(195);
-        *Y = rand()%(35);
+        *X = rand()%(y->horizontal-5);
+        *Y = rand()%(y->vertical-5);
         food_print(X, Y, symbol);
     }
 }
 
-void move_tail(snake *x2, snake_pos *y) {
+void food::move_tail(snake *x2, snake_pos *y) {
     int i;
     Console cons3;
 
@@ -194,13 +220,13 @@ void move_tail(snake *x2, snake_pos *y) {
     }
 }
 
-void move_head(snake *x2, snake_pos *y) {
+void food::move_head(snake *x2, snake_pos *y) {
     Console cons4;
 
     switch (x2->direction)
     {
-    case 100:
-        if (x2->prev_direction==97)
+    case y->right:
+        if (x2->prev_direction==y->left)
         {
             x2->head_X--;
             break;
@@ -208,8 +234,8 @@ void move_head(snake *x2, snake_pos *y) {
         x2->head_X++;
         break;
 
-    case 97:
-        if (x2->prev_direction==100)
+    case y->left:
+        if (x2->prev_direction==y->right)
         {
             x2->head_X++;
             break;
@@ -218,8 +244,8 @@ void move_head(snake *x2, snake_pos *y) {
         break;
 
 
-    case 119:
-        if (x2->prev_direction==115)
+    case y->up:
+        if (x2->prev_direction==y->down)
         {
             x2->head_Y++;
             break;
@@ -228,8 +254,8 @@ void move_head(snake *x2, snake_pos *y) {
         break;
 
 
-    case 115:
-        if (x2->prev_direction==119)
+    case y->down:
+        if (x2->prev_direction==y->up)
         {
             x2->head_Y--;
             break;
