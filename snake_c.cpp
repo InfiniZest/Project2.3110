@@ -1,6 +1,7 @@
-// Gonna be a second attempt here...
 #include "console.h"
-
+#include "Snake.h"
+#include "Position.h"
+#include "Food.h"
 #include <stdio.h>
 #include <cstdlib>
 #include <string.h>
@@ -50,17 +51,17 @@ struct food
 
 
 
-void snake_init(snake *snake1);
-void pos_init(snake_pos *pos1);
-void food_init(food *food1);
-void gotoxy(int,int);
-void snake_place(snake *snake1, snake_pos *pos1);
-void snake_move(snake *snake1, snake_pos *pos1, food *food1, int*);
+// void snake_init(snake *snake1);
+// void pos_init(snake_pos *pos1);
+// void food_init(food *food1);
+// void gotoxy(int,int);
+// void snake_place(snake *snake1, snake_pos *pos1);
+// void snake_move(snake *snake1, snake_pos *pos1, food *food1, int*);
 void move_tail(snake *snake1, snake_pos *pos1);
 void move_head(snake *snake1, snake_pos *pos1);
-void food_print(food *food1);
+// void food_print(food *food1);
 int game_over(snake *snake1, snake_pos *pos1);
-void set_borders();
+// void set_borders();
 void print_score(int*);
 // int kbhit(void);
 
@@ -68,30 +69,34 @@ void print_score(int*);
 
 int main()
 {
-  int snake_speed=100000;
-  int score=0;
+  int snake_speed = 100000;
+  int score = 0;
 
   Console cons;
-  
+  /* class init */
+  Snake snake(cons);            // Snake and Food uses the cons object so that the snake is always encapsulated within the console boundaries
+  Food food(cons);
   
   /* struct init */
 
-  snake snake1;
-  snake_pos pos1;
-  food food1;
-  snake_init(&snake1);
-  pos_init(&pos1);
-  food_init(&food1);
+  // snake snake1;
+  // snake_pos pos1;
+  // food food1;
+  // snake_init(&snake1);
+  // pos_init(&pos1);
+  // food_init(&food1);
 
 
   /* set initial field */
 
   system("clear");
   system("stty -echo");
-  curs_set(0);                    // doesn't work for some reason
-  snake_place(&snake1,&pos1);
+  curs_set(0);                    // makes console cursor invisible
+  // snake_place(&snake1,&pos1);
+  // food_print(&food1);
+  snake.snake_place();
   cons.draw_borders();
-  food_print(&food1);
+  food.food_print();
 
 
   /* use system call to make terminal send all keystrokes directly to stdin */
@@ -100,7 +105,7 @@ int main()
 
 
   /* while snake not got collided into itself */
-
+  // TODO Update this
   while(!(game_over(&snake1,&pos1)))
     {
 
@@ -138,7 +143,7 @@ int main()
 
 
 
-
+/*
 void snake_init(snake *snake1)
 {
   snake1->symbol='*';
@@ -150,7 +155,7 @@ void snake_init(snake *snake1)
   snake1->head_X=snake1->tail_X+snake1->size-1;
   snake1->head_Y=5;
 }
-
+*/
 
 void snake_place(snake *snake1, snake_pos *pos1)
 {
@@ -166,6 +171,7 @@ void snake_place(snake *snake1, snake_pos *pos1)
 
 }
 
+/*
 void set_borders()
 {
   int i;
@@ -185,8 +191,7 @@ void set_borders()
       printf("X");
     }
 }
-
-
+*/
 
 void snake_move(snake *snake1, snake_pos *pos1, food *food1, int *score)
 {

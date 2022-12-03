@@ -32,7 +32,7 @@ void Console::draw_borders() {
       printf("X");
       gotoxy(horizontal,i);
       printf("X");
- p   }
+    }
 
   for (int i=0; i<horizontal; ++i)
     {
