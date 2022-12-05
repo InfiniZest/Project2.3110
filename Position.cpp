@@ -1,10 +1,8 @@
 #include "Position.h"
 #include <stdio.h>
 
-Position::Position(int vertical, int horizontal)
+Position::Position()
 {
-    this->vertical = vertical;
-    this->horizontal = horizontal;
     x = new int[vertical * horizontal];
     y = new int[vertical * horizontal];
 }
@@ -23,6 +21,16 @@ void Position::setY(int index, int value)
     {
         y[index] = value;
     }
+}
+
+int Position::get_horizontal(int index) const
+{
+    return x[index];
+}
+
+int Position::get_vertical(int index) const
+{
+    return y[index];
 }
 
 Position::~Position()

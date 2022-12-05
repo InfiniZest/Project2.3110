@@ -10,7 +10,7 @@
 #include <fcntl.h>
 #include <ncurses.h>
 
-
+/*
 #define vertical 40
 #define horizontal 200
 #define down 115
@@ -48,7 +48,7 @@ struct food
   char symbol;
 
 };
-
+*/
 
 
 // void snake_init(snake *snake1);
@@ -57,12 +57,12 @@ struct food
 // void gotoxy(int,int);
 // void snake_place(snake *snake1, snake_pos *pos1);
 // void snake_move(snake *snake1, snake_pos *pos1, food *food1, int*);
-void move_tail(snake *snake1, snake_pos *pos1);
-void move_head(snake *snake1, snake_pos *pos1);
+// void move_tail(snake *snake1, snake_pos *pos1);
+// void move_head(snake *snake1, snake_pos *pos1);
 // void food_print(food *food1);
-int game_over(snake *snake1, snake_pos *pos1);
+// int game_over(snake *snake1, snake_pos *pos1);
 // void set_borders();
-void print_score(int*);
+// void print_score(int*);
 // int kbhit(void);
 
 
@@ -74,7 +74,7 @@ int main()
 
   Console cons;
   /* class init */
-  Snake snake(cons);            // Snake and Food uses the cons object so that the snake is always encapsulated within the console boundaries
+  Snake snake;            // Snake and Food uses the cons object so that the snake is always encapsulated within the console boundaries
   Food food(cons);
   
   /* struct init */
@@ -94,8 +94,10 @@ int main()
   curs_set(0);                    // makes console cursor invisible
   // snake_place(&snake1,&pos1);
   // food_print(&food1);
-  snake.snake_place();
+  
+  // snake.snake_place();
   cons.draw_borders();
+  // printf("%d %d", food.getFoodX(), food.getFoodY()); 
   food.food_print();
 
 
@@ -105,40 +107,41 @@ int main()
 
 
   /* while snake not got collided into itself */
-  // TODO Update this
-  while(!(game_over(&snake1,&pos1)))
+  // while(!(game_over(&snake1,&pos1)))
+  
+  // while (!snake.game_over(cons))
+  // {
+    /* while key not pressed */
+    while ( !(cons.kbhit()) )
     {
-
-      /* while key not pressed */
-
-      while ( !(cons.kbhit()) )
-        {
-          usleep(snake_speed);
-          snake_move(&snake1,&pos1,&food1,&score);
-          if (game_over(&snake1,&pos1))
-            {
-              break;
-            }
-
-        }
-      /* store previous direction and fetch a new one */
-
-      snake1.prev_direction=snake1.direction;
-      snake1.direction=getchar();
-
-
-
+      /*
+      usleep(snake_speed);
+      // snake_move(&snake1,&pos1,&food1,&score);
+      snake.snake_move(cons, food, score);
+      // if (game_over(&snake1,&pos1))
+      if (snake.game_over(cons))
+      {
+        break;
+      }
+      */
     }
+
+    /* store previous direction and fetch a new one */
+  /*
+    snake.setPrevDirection(snake.getDirection());
+    // snake1.prev_direction=snake1.direction;
+    snake.setDirection(getchar());
+    // snake1.direction=getchar();
+  }
+  */
   /* use system call to set terminal behaviour to more normal behaviour */
-  system ("/bin/stty cooked");
+  system("/bin/stty cooked");
   system("stty echo");
   system("clear");
+
   printf("\n\n Final score: %d \n\n", score);
 
-
-
   return 0;
-
 }
 
 
@@ -157,6 +160,7 @@ void snake_init(snake *snake1)
 }
 */
 
+/*
 void snake_place(snake *snake1, snake_pos *pos1)
 {
   int i;
@@ -171,7 +175,6 @@ void snake_place(snake *snake1, snake_pos *pos1)
 
 }
 
-/*
 void set_borders()
 {
   int i;
@@ -191,7 +194,6 @@ void set_borders()
       printf("X");
     }
 }
-*/
 
 void snake_move(snake *snake1, snake_pos *pos1, food *food1, int *score)
 {
@@ -340,8 +342,6 @@ int game_over(snake *snake1, snake_pos *pos1)
 
   return 0;
 }
-
-/*
 
 int kbhit(void)
 {

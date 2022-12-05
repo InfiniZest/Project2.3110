@@ -4,16 +4,18 @@
 class Position
 {
 public:
-    Position(int vertical, int horizontal);
+    Position();
     ~Position();
-    void Position::setX(int index, int value);
-    void Position::setY(int index, int value);
+    void setX(int index, int value);
+    void setY(int index, int value);
+    int get_horizontal(int index) const;
+    int get_vertical(int index) const;
 
 private:
-    int vertical;
-    int horizontal;
+    int vertical = 40;
+    int horizontal = 200;
     int* x;
     int* y;
-}
+};
 
 #endif

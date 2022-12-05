@@ -30,7 +30,7 @@ void Console::draw_borders() {
     {
       gotoxy(0,i);
       printf("X");
-      gotoxy(horizontal,i);
+      gotoxy(horizontal,i + 1);
       printf("X");
     }
 
@@ -38,7 +38,7 @@ void Console::draw_borders() {
     {
       gotoxy(i,0);
       printf("X");
-      gotoxy(i,vertical);
+      gotoxy(i + 1,vertical);
       printf("X");
     }
 }
@@ -73,5 +73,4 @@ int Console::kbhit()
 
 void Console::gotoxy(int x, int y) {
   printf("%c[%d;%df",0x1B,y,x);
-
 }

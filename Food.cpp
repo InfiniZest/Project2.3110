@@ -1,16 +1,38 @@
 #include "Food.h"
 #include <stdio.h>
+#include <cstdlib>
 
 Food::Food(Console& cons)
 {
-    x = (rand() % (cons.get_horizontal() - 5)) + 1;
-    y = (rand() % (cons.get_vertical() - 5)) + 1;
-    symbol = 'F';
-    this->cons = cons;
+  srand(time(0));  
+  x = (rand() % (cons.get_horizontal() - 3)) + 3;
+  y = (rand() % (cons.get_vertical() - 3)) + 3;
+  symbol = 'F';
 }
 
 void Food::food_print()
 {
-  cons.gotoxy(x, y);
+  gotoxy(x, y);
   printf("%c", symbol);
+}
+
+int Food::getFoodX() const
+{
+  return x;
+}
+
+int Food::getFoodY() const
+{
+  return y;
+}
+
+void Food::placeFood(Console& cons)
+{
+  x = (rand() % (cons.get_horizontal() - 3)) + 3;
+  y = (rand() % (cons.get_vertical() - 3)) + 3;
+}
+
+void Food::gotoxy(int x, int y) const 
+{
+  printf("%c[%d;%df", 0x1B, y, x);
 }
