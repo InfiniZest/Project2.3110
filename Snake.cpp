@@ -6,7 +6,6 @@
 
 Snake::Snake()
 {
-    snake_pos = Position();
     symbol = '*';
     size = 10;
     direction = right;
@@ -19,6 +18,7 @@ Snake::Snake()
 
 Snake::~Snake()
 {
+
 }
 
 void Snake::snake_place()
@@ -29,29 +29,28 @@ void Snake::snake_place()
         printf("%c", symbol);
         snake_pos.setX(i, tail_X);
         snake_pos.setY(i, tail_Y);
-        tail_X += 1;
+        tail_X++;
     }
 }
 
 bool Snake::game_over(Console& cons)
 {
+    /*
     for (int i = 0; i < size; ++i)
     {
         if ((snake_pos.get_horizontal(i) == head_X) && (snake_pos.get_vertical(i) == head_Y))
         {
-          return true;
+            return true;
         }
     }
+    */
 
-
-    if ((head_X == cons.get_horizontal()) || (head_X == 1) || (head_Y == cons.get_vertical()) || (head_Y == 1))
+    if ((head_X >= cons.get_horizontal()) || (head_X <= 1) || (head_Y >= cons.get_vertical()) || (head_Y <= 1))
     {
-      return true;
+        return true;
     }
 
-
-  return false;
-
+    return false;
 }
 
 void Snake::snake_move(Console& cons, Food& food, int& score)
@@ -151,5 +150,15 @@ void Snake::setDirection(char direction)
 
 void Snake::gotoxy(int x, int y) const 
 {
-    printf("%c[%d;%df",0x1B,y,x);
+    printf("%c[%d;%df", 0x1B, y, x);
+}
+
+int Snake::getSnakeSpeed() const
+{
+    return snake_speed;
+}
+
+void Snake::setSnakeSpeed(int speed)
+{
+    snake_speed = speed;
 }

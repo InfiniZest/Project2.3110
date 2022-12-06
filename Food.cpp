@@ -26,6 +26,7 @@ int Food::getFoodY() const
   return y;
 }
 
+// TODO, make sure food doesn't intersect with snake
 void Food::placeFood(Console& cons)
 {
   x = (rand() % (cons.get_horizontal() - 3)) + 3;

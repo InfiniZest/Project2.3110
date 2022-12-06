@@ -9,7 +9,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <ncurses.h>
-
+#include <iostream>
 /*
 #define vertical 40
 #define horizontal 200
@@ -69,12 +69,12 @@ struct food
 
 int main()
 {
-  int snake_speed = 100000;
   int score = 0;
 
-  Console cons;
   /* class init */
-  Snake snake;            // Snake and Food uses the cons object so that the snake is always encapsulated within the console boundaries
+
+  Console cons;
+  Snake* snake = new Snake();
   Food food(cons);
   
   /* struct init */
@@ -95,9 +95,8 @@ int main()
   // snake_place(&snake1,&pos1);
   // food_print(&food1);
   
-  // snake.snake_place();
+  snake->snake_place();
   cons.draw_borders();
-  // printf("%d %d", food.getFoodX(), food.getFoodY()); 
   food.food_print();
 
 
@@ -108,32 +107,29 @@ int main()
 
   /* while snake not got collided into itself */
   // while(!(game_over(&snake1,&pos1)))
-  
-  // while (!snake.game_over(cons))
-  // {
+  while (!(snake->game_over(cons)))
+  {
     /* while key not pressed */
-    while ( !(cons.kbhit()) )
+    while (!(cons.kbhit()))
     {
-      /*
-      usleep(snake_speed);
+      usleep(snake->getSnakeSpeed());
       // snake_move(&snake1,&pos1,&food1,&score);
-      snake.snake_move(cons, food, score);
+      snake->snake_move(cons, food, score);
       // if (game_over(&snake1,&pos1))
-      if (snake.game_over(cons))
+      if (snake->game_over(cons))
       {
         break;
       }
-      */
     }
 
     /* store previous direction and fetch a new one */
-  /*
-    snake.setPrevDirection(snake.getDirection());
+    snake->setPrevDirection(snake->getDirection());
     // snake1.prev_direction=snake1.direction;
-    snake.setDirection(getchar());
+    snake->setDirection(getchar());
     // snake1.direction=getchar();
   }
-  */
+
+  delete snake;
   /* use system call to set terminal behaviour to more normal behaviour */
   system("/bin/stty cooked");
   system("stty echo");

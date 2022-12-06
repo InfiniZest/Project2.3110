@@ -17,6 +17,8 @@ public:
     void setPrevDirection(char direction);
     char getDirection() const;
     void setDirection(char direction);
+    int getSnakeSpeed() const;
+    void setSnakeSpeed(int speed);
 
 private:
     char symbol;
@@ -26,6 +28,7 @@ private:
     const int up = 119;
     const int left = 97;
     const int right = 100;
+    int snake_speed = 100000;
     int size;
     char direction;
     char prev_direction;
