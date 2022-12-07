@@ -5,32 +5,32 @@
 Food::Food(Console& cons)
 {
   srand(time(0));  
-  x = (rand() % (cons.get_horizontal() - 3)) + 3;
-  y = (rand() % (cons.get_vertical() - 3)) + 3;
+  food_pos.setX((rand() % (cons.get_horizontal() - 3)) + 3);
+  food_pos.setY((rand() % (cons.get_vertical() - 3)) + 3);
   symbol = 'F';
 }
 
 void Food::food_print()
 {
-  gotoxy(x, y);
+  gotoxy(food_pos.getX(), food_pos.getY());
   printf("%c", symbol);
 }
 
 int Food::getFoodX() const
 {
-  return x;
+  return food_pos.getX();
 }
 
 int Food::getFoodY() const
 {
-  return y;
+  return food_pos.getY();
 }
 
 // TODO, make sure food doesn't intersect with snake
 void Food::placeFood(Console& cons)
 {
-  x = (rand() % (cons.get_horizontal() - 3)) + 3;
-  y = (rand() % (cons.get_vertical() - 3)) + 3;
+  food_pos.setX((rand() % (cons.get_horizontal() - 3)) + 3);
+  food_pos.setY((rand() % (cons.get_vertical() - 3)) + 3);
 }
 
 void Food::gotoxy(int x, int y) const 

@@ -3,6 +3,33 @@
 
 Position::Position()
 {
+    int x;
+    int y;
+}
+
+void Position::setX(int value)
+{
+    x = value;
+}
+
+void Position::setY(int value)
+{
+    y = value;
+}
+
+int Position::getX() const
+{
+    return x;
+}
+
+int Position::getY() const
+{
+    return y;
+}
+
+/*
+Position::Position()
+{
     x = new int[vertical * horizontal];
     y = new int[vertical * horizontal];
 }
@@ -38,3 +65,4 @@ Position::~Position()
     delete [] x;
     delete [] y;
 }
+*/

@@ -10,10 +10,14 @@ Snake::Snake()
     size = 10;
     direction = right;
     prev_direction = down;
-    tail_X = 5;
-    tail_Y = 5;
-    head_X = tail_X + size-1;
-    head_Y = 5;
+    tail.setX(5);
+    tail.setY(5);
+    head.setX(tail.getX() + size - 1);
+    head.setY(5);
+    // tail_X = 5;
+    // tail_Y = 5;
+    // head_X = tail_X + size-1;
+    // head_Y = 5;
 }
 
 Snake::~Snake()
@@ -25,11 +29,13 @@ void Snake::snake_place()
 {
     for (int i = 0; i < size; i++)
     {
-        gotoxy(tail_X, tail_Y);
+        gotoxy(tail.getX(), tail.getY());
         printf("%c", symbol);
-        snake_pos.setX(i, tail_X);
-        snake_pos.setY(i, tail_Y);
-        tail_X++;
+        snake_pos[i].setX(tail.getX());
+        // snake_pos.setX(i, tail_X);
+        snake_pos[i].setY(tail.getY());
+        // snake_pos.setY(i, tail_Y);
+        tail.setX(tail.getX() + 1);
     }
 }
 
@@ -38,14 +44,14 @@ bool Snake::game_over(Console& cons)
     /*
     for (int i = 0; i < size; ++i)
     {
-        if ((snake_pos.get_horizontal(i) == head_X) && (snake_pos.get_vertical(i) == head_Y))
+        if ((snake_pos[i].getX() == head_X) && (snake_pos[i].getY() == head_Y))
         {
             return true;
         }
     }
     */
 
-    if ((head_X >= cons.get_horizontal()) || (head_X <= 1) || (head_Y >= cons.get_vertical()) || (head_Y <= 1))
+    if ((head.getX() >= cons.get_horizontal()) || (head.getX() <= 1) || (head.getY() >= cons.get_vertical()) || (head.getY() <= 1))
     {
         return true;
     }
@@ -57,7 +63,7 @@ void Snake::snake_move(Console& cons, Food& food, int& score)
 {
     move_head();
 
-    if (!((head_X == food.getFoodX()) && (head_Y == food.getFoodY())))
+    if (!((head.getX() == food.getFoodX()) && (head.getY() == food.getFoodY())))
     {
         move_tail();
     }
@@ -73,14 +79,16 @@ void Snake::snake_move(Console& cons, Food& food, int& score)
 void Snake::move_tail()
 {
     // remove last cell of tail
-    gotoxy(snake_pos.get_horizontal(0), snake_pos.get_vertical(0));
+    gotoxy(snake_pos[0].getX(), snake_pos[0].getY());
+    // gotoxy(snake_pos.get_horizontal(0), snake_pos.get_vertical(0));
     printf(" ");
 
     // update new tail position
     for (int i = 0; i < size; ++i)
     {
-        snake_pos.setX(i, snake_pos.get_horizontal(i + 1)); 
-        snake_pos.setY(i, snake_pos.get_vertical(i + 1));
+        snake_pos[i] = snake_pos[i + 1];
+        // snake_pos.setX(i, snake_pos.get_horizontal(i + 1)); 
+        // snake_pos.setY(i, snake_pos.get_vertical(i + 1));
     }
 }
 
@@ -91,45 +99,48 @@ void Snake::move_head()
         case 100:   // right
             if (prev_direction == left)
             {
-                head_X--;
+                head.setX(head.getX() + 1);
                 break;
             }
-            head_X++;
+            head.setX(head.getX() + 1);
             break;
 
         case 97:    // left
             if (prev_direction == right)
             {
-                head_X++;
+                head.setX(head.getX() + 1);
                 break;
             }
-            head_X--;
+            head.setX(head.getX() - 1);
             break;
         case 119:    // up
             if (prev_direction == down)
             {
-                head_Y++;
+                head.setY(head.getY() + 1);
                 break;
             }
-            head_Y--;
+            head.setY(head.getY() - 1);
             break;
         case 115:    // down
             if (prev_direction == up)
             {
-                head_Y--;
+                head.setY(head.getY() - 1);
                 break;
             }
-            head_Y++;
+            head.setY(head.getY() + 1);
             break;
         default:
             break;
     }
 
     // update tail position
-    snake_pos.setX(size, head_X);
-    snake_pos.setY(size, head_Y);
+    snake_pos[size].setX(head.getX());
+    // snake_pos.setX(size, head_X);
+    snake_pos[size].setY(head.getY());
+    // snake_pos.setY(size, head_Y);
 
-    gotoxy(snake_pos.get_horizontal(size), snake_pos.get_vertical(size));
+    gotoxy(snake_pos[size].getX(), snake_pos[size].getY());
+    // gotoxy(snake_pos.get_horizontal(size), snake_pos.get_vertical(size));
     printf("%c", symbol);
 }
 

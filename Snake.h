@@ -32,11 +32,13 @@ private:
     int size;
     char direction;
     char prev_direction;
-    int tail_X;
-    int tail_Y;
-    int head_X;
-    int head_Y;
-    Position snake_pos;
+    Position head;
+    Position tail;
+    // int tail_X;
+    // int tail_Y;
+    // int head_X;
+    // int head_Y;
+    Position snake_pos[40 * 200];
     void gotoxy(int x, int y) const;
 };
 

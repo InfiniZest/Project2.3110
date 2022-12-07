@@ -1,6 +1,7 @@
 #ifndef FOOD_H
 #define FOOD_H
 #include "console.h"
+#include "Position.h"
 #include <cstdlib>
 #include <ctime>
 
@@ -14,8 +15,9 @@ public:
   void placeFood(Console& cons);
 
 private:
-  int x;
-  int y;
+  // int x;
+  // int y;
+  Position food_pos;
   char symbol;
   void gotoxy(int x, int y) const;
 };
