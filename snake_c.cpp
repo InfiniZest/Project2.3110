@@ -10,6 +10,7 @@
 #include <fcntl.h>
 #include <ncurses.h>
 #include <iostream>
+// #include <fstream>
 /*
 #define vertical 40
 #define horizontal 200
@@ -141,16 +142,22 @@ int main()
     snake->setDirection(getchar());
     // snake1.direction=getchar();
   }
+  
+  // DEBUG DATA
+  // std::fstream inout("debug.txt", std::ios::out);
+  // inout << "Game ended. The final score: " << score << "\n";
 
   delete snake;
   /* use system call to set terminal behaviour to more normal behaviour */
+  
   system("/bin/stty cooked");
   system("stty echo");
   system("clear");
+  endwin();
 
   printf("\n\n Final score: %d \n\n", score);
-  printf("Game over!\n");
-  
+  // std::cout << "\n\n Final score: " << score << "\n\n";
+
   return 0;
 }
 

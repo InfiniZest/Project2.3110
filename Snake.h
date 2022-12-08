@@ -40,8 +40,10 @@ private:
     // int tail_Y;
     // int head_X;
     // int head_Y;
-    Position snake_pos[40 * 200];
+    Position* snake_pos;
+    int snakeCapacity;
     void gotoxy(int x, int y) const;
+    void reallocateSnakeSize();
 };
 
 #endif

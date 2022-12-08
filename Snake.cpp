@@ -5,6 +5,8 @@ Snake::Snake()
 {
     symbol = '*';
     size = 10;
+    snakeCapacity = size * 2;
+    snake_pos = new Position[snakeCapacity];
     direction = right;
     prev_direction = down;
     tail.setX(5);
@@ -19,7 +21,7 @@ Snake::Snake()
 
 Snake::~Snake()
 {
-
+    delete [] snake_pos;
 }
 
 void Snake::snake_place()
@@ -67,6 +69,10 @@ void Snake::snake_move(Console& cons, Food& food, int& score)
     else
     {
         size++;
+        if (size + 5 >= snakeCapacity)
+        {
+            reallocateSnakeSize();
+        }
         score += 1;
         bool isValidPosition;
         do 
@@ -191,4 +197,17 @@ int Snake::getSize() const
 Position Snake::getSegmentOfSnakePositionAt(int i) const
 {
     return snake_pos[i];
+}
+
+void Snake::reallocateSnakeSize()
+{
+    Position* old = snake_pos;
+    snakeCapacity += 10;
+    snake_pos = new Position[snakeCapacity];
+    for (int i = 0; i < size; i++)
+    {
+        snake_pos[i] = old[i]; 
+    }
+
+    delete [] old;
 }
