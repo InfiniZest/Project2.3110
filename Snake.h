@@ -19,6 +19,8 @@ public:
     void setDirection(char direction);
     int getSnakeSpeed() const;
     void setSnakeSpeed(int speed);
+    int getSize() const;
+    Position getSegmentOfSnakePositionAt(int i) const;
 
 private:
     char symbol;

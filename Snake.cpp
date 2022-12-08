@@ -1,7 +1,4 @@
 #include "Snake.h"
-#include "Position.h"
-#include "Food.h"
-#include "console.h"
 #include <stdio.h>
 
 Snake::Snake()
@@ -41,15 +38,15 @@ void Snake::snake_place()
 
 bool Snake::game_over(Console& cons)
 {
-    /*
-    for (int i = 0; i < size; ++i)
+    
+    for (int i = 0; i < size - 1; ++i)
     {
-        if ((snake_pos[i].getX() == head_X) && (snake_pos[i].getY() == head_Y))
+        if ((snake_pos[i].getX() == head.getX()) && (snake_pos[i].getY() == head.getY()))
         {
             return true;
         }
     }
-    */
+    
 
     if ((head.getX() >= cons.get_horizontal()) || (head.getX() <= 1) || (head.getY() >= cons.get_vertical()) || (head.getY() <= 1))
     {
@@ -71,7 +68,19 @@ void Snake::snake_move(Console& cons, Food& food, int& score)
     {
         size++;
         score += 1;
-        food.placeFood(cons);
+        bool isValidPosition;
+        do 
+        {
+            isValidPosition = true;
+            food.placeFood(cons);
+            for (int i = 0; i < size; ++i)
+            {
+                if (snake_pos[i].getX() == food.getFoodX() && snake_pos[i].getY() == food.getFoodY())
+                {
+                    isValidPosition = false;
+                }
+            }
+        } while (!isValidPosition);
         food.food_print();
     }
 }
@@ -172,4 +181,14 @@ int Snake::getSnakeSpeed() const
 void Snake::setSnakeSpeed(int speed)
 {
     snake_speed = speed;
+}
+
+int Snake::getSize() const
+{
+    return size;
+}
+
+Position Snake::getSegmentOfSnakePositionAt(int i) const
+{
+    return snake_pos[i];
 }

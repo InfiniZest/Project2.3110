@@ -4,9 +4,6 @@
 
 Food::Food(Console& cons)
 {
-  srand(time(0));  
-  food_pos.setX((rand() % (cons.get_horizontal() - 3)) + 3);
-  food_pos.setY((rand() % (cons.get_vertical() - 3)) + 3);
   symbol = 'F';
 }
 
@@ -26,9 +23,9 @@ int Food::getFoodY() const
   return food_pos.getY();
 }
 
-// TODO, make sure food doesn't intersect with snake
 void Food::placeFood(Console& cons)
 {
+  srand(time(0));
   food_pos.setX((rand() % (cons.get_horizontal() - 3)) + 3);
   food_pos.setY((rand() % (cons.get_vertical() - 3)) + 3);
 }

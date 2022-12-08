@@ -97,8 +97,21 @@ int main()
   
   snake->snake_place();
   cons.draw_borders();
-  food.food_print();
+  bool isValidPosition;
+  do 
+  {
+    isValidPosition = true;
+    food.placeFood(cons);
+    for (int i = 0; i < snake->getSize(); ++i)
+    {
+      if (snake->getSegmentOfSnakePositionAt(i).getX() == food.getFoodX() && snake->getSegmentOfSnakePositionAt(i).getY() == food.getFoodY())
+      {
+        isValidPosition = false;
+      }
+    }
+  } while (!isValidPosition);
 
+  food.food_print();
 
   /* use system call to make terminal send all keystrokes directly to stdin */
 
@@ -136,7 +149,8 @@ int main()
   system("clear");
 
   printf("\n\n Final score: %d \n\n", score);
-
+  printf("Game over!\n");
+  
   return 0;
 }
 
