@@ -15,8 +15,6 @@ public:
   void placeFood(Console& cons);
 
 private:
-  // int x;
-  // int y;
   Position food_pos;
   char symbol;
   void gotoxy(int x, int y) const;

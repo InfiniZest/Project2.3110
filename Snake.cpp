@@ -13,10 +13,6 @@ Snake::Snake()
     tail.setY(5);
     head.setX(tail.getX() + size - 1);
     head.setY(5);
-    // tail_X = 5;
-    // tail_Y = 5;
-    // head_X = tail_X + size-1;
-    // head_Y = 5;
 }
 
 Snake::~Snake()
@@ -31,9 +27,7 @@ void Snake::snake_place()
         gotoxy(tail.getX(), tail.getY());
         printf("%c", symbol);
         snake_pos[i].setX(tail.getX());
-        // snake_pos.setX(i, tail_X);
         snake_pos[i].setY(tail.getY());
-        // snake_pos.setY(i, tail_Y);
         tail.setX(tail.getX() + 1);
     }
 }
@@ -95,15 +89,12 @@ void Snake::move_tail()
 {
     // remove last cell of tail
     gotoxy(snake_pos[0].getX(), snake_pos[0].getY());
-    // gotoxy(snake_pos.get_horizontal(0), snake_pos.get_vertical(0));
     printf(" ");
 
     // update new tail position
     for (int i = 0; i < size; ++i)
     {
         snake_pos[i] = snake_pos[i + 1];
-        // snake_pos.setX(i, snake_pos.get_horizontal(i + 1)); 
-        // snake_pos.setY(i, snake_pos.get_vertical(i + 1));
     }
 }
 
@@ -150,12 +141,9 @@ void Snake::move_head()
 
     // update tail position
     snake_pos[size].setX(head.getX());
-    // snake_pos.setX(size, head_X);
     snake_pos[size].setY(head.getY());
-    // snake_pos.setY(size, head_Y);
 
     gotoxy(snake_pos[size].getX(), snake_pos[size].getY());
-    // gotoxy(snake_pos.get_horizontal(size), snake_pos.get_vertical(size));
     printf("%c", symbol);
 }
 
@@ -194,10 +182,14 @@ int Snake::getSize() const
     return size;
 }
 
+/* Returns a single location of part of the snake */
+
 Position Snake::getSegmentOfSnakePositionAt(int i) const
 {
     return snake_pos[i];
 }
+
+/* Use to increase the snake capacity */
 
 void Snake::reallocateSnakeSize()
 {

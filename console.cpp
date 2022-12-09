@@ -20,10 +20,10 @@ int Console::get_horizontal() {
   return horizontal;
 }
 
-
 int Console::get_vertical() {
   return vertical;
 }
+
 void Console::draw_borders() {
 
   for (int i=0; i<vertical; ++i)

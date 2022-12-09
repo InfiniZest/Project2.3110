@@ -24,8 +24,6 @@ public:
 
 private:
     char symbol;
-    int vertical = 40;
-    int horizontal = 200;
     const int down = 115;
     const int up = 119;
     const int left = 97;
@@ -36,10 +34,6 @@ private:
     char prev_direction;
     Position head;
     Position tail;
-    // int tail_X;
-    // int tail_Y;
-    // int head_X;
-    // int head_Y;
     Position* snake_pos;
     int snakeCapacity;
     void gotoxy(int x, int y) const;
