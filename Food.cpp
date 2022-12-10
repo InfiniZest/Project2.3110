@@ -26,8 +26,8 @@ int Food::getFoodY() const
 void Food::placeFood(Console& cons)
 {
   srand(time(0));
-  food_pos.setX((rand() % (cons.get_horizontal() - 3)) + 3);
-  food_pos.setY((rand() % (cons.get_vertical() - 3)) + 3);
+  food_pos.setX((rand() % (cons.get_horizontal() - 23)) + 3);
+  food_pos.setY((rand() % (cons.get_vertical() - 23)) + 3);
 }
 
 void Food::gotoxy(int x, int y) const 

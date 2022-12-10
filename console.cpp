@@ -30,6 +30,8 @@ void Console::draw_borders() {
     {
       gotoxy(0,i);
       printf("X");
+      gotoxy(horizontal - 20,i + 1);
+      printf("X");
       gotoxy(horizontal,i + 1);
       printf("X");
     }
@@ -41,6 +43,34 @@ void Console::draw_borders() {
       gotoxy(i + 1,vertical);
       printf("X");
     }
+}
+
+void Console::draw_labels()
+{
+  gotoxy(horizontal - 18, 3);
+  printf("Score: 0");
+  gotoxy(horizontal - 18, 6);
+  printf("Controls:");
+  gotoxy(horizontal - 18, 7);
+  printf("W -> Move up");
+  gotoxy(horizontal - 18, 8);
+  printf("S -> Move down");
+  gotoxy(horizontal - 18, 9);
+  printf("A -> Move left");
+  gotoxy(horizontal - 18, 10);
+  printf("D -> Move right");
+}
+
+void Console::update_score(int score)
+{
+  gotoxy(horizontal - 11, 3);
+  if (score > 9999999999)
+  {
+    printf("∞");  
+  } else
+  {
+    printf("%d", score);
+  }
 }
 
 int Console::kbhit()

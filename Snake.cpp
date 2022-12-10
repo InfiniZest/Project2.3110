@@ -44,7 +44,7 @@ bool Snake::game_over(Console& cons)
     }
     
 
-    if ((head.getX() >= cons.get_horizontal()) || (head.getX() <= 1) || (head.getY() >= cons.get_vertical()) || (head.getY() <= 1))
+    if ((head.getX() >= cons.get_horizontal() - 20) || (head.getX() <= 1) || (head.getY() >= cons.get_vertical()) || (head.getY() <= 1))
     {
         return true;
     }
@@ -68,6 +68,7 @@ void Snake::snake_move(Console& cons, Food& food, int& score)
             reallocateSnakeSize();
         }
         score += 1;
+        cons.update_score(score);
         bool isValidPosition;
         do 
         {

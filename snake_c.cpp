@@ -28,6 +28,7 @@ int main()
 
   snake->snake_place();
   cons.draw_borders();
+  cons.draw_labels();
   bool isValidPosition;           // determines whether the food is not on top of the snake
   do 
   {
@@ -78,7 +79,13 @@ int main()
   system("clear");
   endwin();
 
-  printf("\n\n Final score: %d \n\n", score);
+  if (score > 9999999999)
+  {
+    printf("\n\n Final score: ∞ \n\n");  
+  } else
+  {
+    printf("\n\n Final score: %d \n\n", score);
+  }
 
   return 0;
 }
